@@ -11,5 +11,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: 😴 sleep 60s
-        run: sleep 60
+      - name: 😴 sleep
+        run: |
+          sleep $(( ( RANDOM % 60 )  + 10 ))
