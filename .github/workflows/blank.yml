@@ -47,5 +47,7 @@ jobs:
            create_branch: true
            
       - name: open PR
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: gh pr create --title "${{ inputs.file-name }} PR" --body "${{ inputs.file-name }} body"
 
