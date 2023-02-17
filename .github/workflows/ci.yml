@@ -2,12 +2,13 @@ name: Basic
 
 on:
   pull_request:
+    branches: [ main ]
   merge_group:
+    branches: [ main ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Run a one-line script
+      - name: 😴 sleep 60s
         run: sleep 60
