@@ -15,3 +15,4 @@ jobs:
         if: github.event_name == 'pull_request'
         run: |
           sleep $(( ( RANDOM % 60 )  + 10 ))
+      - run: echo "Done"
