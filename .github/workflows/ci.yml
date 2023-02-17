@@ -12,5 +12,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 😴 sleep
+        if: github.event_name == 'pull_request'
         run: |
           sleep $(( ( RANDOM % 60 )  + 10 ))
