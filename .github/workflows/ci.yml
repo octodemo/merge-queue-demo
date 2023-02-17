@@ -1,5 +1,6 @@
 name: Basic
 
+# Trigger this workflow on individual pull requests and merge groups that target the `main` branch
 on:
   pull_request:
     branches: [ main ]
