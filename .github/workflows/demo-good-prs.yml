@@ -24,13 +24,15 @@ jobs:
 
   demo:
     name: PR
+    runs-on: ubuntu-latest
     needs: file_name
     strategy:
       matrix:
         file_name: ${{ fromJSON(needs.file_name.outputs.file_name) }}
-    uses: octodemo/mq-demo/.github/workflows/create-pr.yml@main
-    with:
-      file_name: ${{ matrix.file_name }}
-      file_content: "Hello World!"
-    secrets:
-      TOKEN: ${{ secrets.AUSTEN_PAT }}
+    steps:
+    - id: create-pr
+      uses: octodemo/mq-demo/.github/actions/create-pr@main
+      with:
+        file_name: ${{ matrix.file_name }}
+        file_content: "Hello World!"
+        token: ${{ secrets.AUSTEN_PAT }}

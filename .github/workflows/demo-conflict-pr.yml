@@ -5,6 +5,7 @@ on:
 
 jobs:
   get_date_time:
+    name: Get Date/Time
     runs-on: ubuntu-latest
     steps:
       - uses: actions/github-script@v6
