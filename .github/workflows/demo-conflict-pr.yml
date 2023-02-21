@@ -5,6 +5,7 @@ on:
 
 jobs:
   demo:
+    name: Conflict
     strategy:
       matrix:
         file_name: ['File1.txt', 'File1.txt']

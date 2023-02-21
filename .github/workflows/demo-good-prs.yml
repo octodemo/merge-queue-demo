@@ -23,6 +23,7 @@ jobs:
       file_name: ${{ steps.file_name.outputs.result }}
 
   demo:
+    name: PR
     needs: file_name
     strategy:
       matrix:

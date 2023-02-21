@@ -54,6 +54,7 @@ on:
 
 jobs:
   create-pr:
+    name: Create PR
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
