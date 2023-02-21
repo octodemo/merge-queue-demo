@@ -30,6 +30,9 @@ on:
       pr_number:
         description: "The number of the PR created"
         value: ${{ jobs.create-pr.outputs.number }}
+    secrets:
+      TOKEN:
+        required: false
   workflow_dispatch:
     inputs:
       file_name:
