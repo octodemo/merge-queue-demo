@@ -18,6 +18,9 @@ jobs:
         file_name: ${{ matrix.file_name }}
         file_content: ${{ matrix.file_content }}
         token: ${{ secrets.AUSTEN_PAT }}
+    - run: gh pr merge ${{ needs.demo.outputs.pr_number }}
+      env:
+        GH_TOKEN: ${{ secrets.AUSTEN_PAT }}
   # demo:
   #   name: Conflict
   #   strategy:
