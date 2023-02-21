@@ -1,4 +1,4 @@
-name: Open Conflict PRs
+name: Merge Conflict PRs
 
 on:
   workflow_dispatch:
