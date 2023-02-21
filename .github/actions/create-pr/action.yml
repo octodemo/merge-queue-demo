@@ -28,6 +28,10 @@ inputs:
     description: "The token to use for creating the PR"
     required: false
     type: string
+  commit_message:
+    description: "The commit message to use for the PR"
+    required: false
+    type: string
 outputs:
   pr_number:
     description: "The number of the PR created"
@@ -44,6 +48,7 @@ runs:
       with:
         branch: ${{ inputs.branch_name && inputs.branch_name || format('patch-{0}-{1}', inputs.file_name, steps.set-uuid.outputs.uuid) }}
         create_branch: true
+        commit_message: ${{ inputs.commit_message }}
     - run: git branch
       shell: bash
     - id: create-pr
