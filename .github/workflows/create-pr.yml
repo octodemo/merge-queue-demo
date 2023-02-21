@@ -12,7 +12,6 @@ on:
        required: false
        type: string
      pr_title:
-       default: "Create ${{ inputs.file_name }}"
        required: false
        type: string
      pr_body:
@@ -34,7 +33,7 @@ jobs:
         with:
            branch: ${{ branch_name }}
            create_branch: true
-      - run: gh pr create --title "${{ inputs.pr_title }}" --body "${{ inputs.pr_body }}"
+      - run: gh pr create --title "${{ inputs.pr_title && inputs.pr_title || 'Created ' + inputs.pr_title }}" --body "${{ inputs.pr_body }}"
         env:
           GH_TOKEN: ${{ github.token }}
 
