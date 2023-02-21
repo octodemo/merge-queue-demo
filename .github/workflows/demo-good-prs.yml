@@ -30,6 +30,7 @@ jobs:
       matrix:
         file_name: ${{ fromJSON(needs.file_name.outputs.file_name) }}
     steps:
+    - uses: actions/checkout@v3
     - id: create-pr
       uses: octodemo/mq-demo/.github/actions/create-pr@main
       with:
