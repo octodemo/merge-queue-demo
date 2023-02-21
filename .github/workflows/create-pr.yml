@@ -66,7 +66,7 @@ jobs:
         run: echo "uuid=$(uuidgen)" >> $GITHUB_OUTPUT
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          branch: ${{ inputs.branch_name && inputs.branch_name || format('patch-{0}-{1}', inputs.file_name, steps.set-uuid.uuid) }}
+          branch: ${{ inputs.branch_name && inputs.branch_name || format('patch-{0}-{1}', inputs.file_name, steps.set-uuid.outputs.uuid) }}
           create_branch: true
       - run: gh pr create --title "${{ inputs.pr_title && inputs.pr_title || format('Created {0}', inputs.file_name) }}" --body "${{ inputs.pr_body }}"
         env:
