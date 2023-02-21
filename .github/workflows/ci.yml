@@ -11,7 +11,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: 😴 sleep
+      - id: random
+        run: echo "number=$(( ( RANDOM % 60 )  + 10 ))" >> $GITHUB_ENV
+      - name: 😴 sleep ${{ steps.random.outputs.number }}s
         # if: github.event_name == 'pull_request'
-        run: sleep $(( ( RANDOM % 60 )  + 10 ))
+        run: sleep ${{ steps.random.outputs.number }}
       - run: echo "Done"
