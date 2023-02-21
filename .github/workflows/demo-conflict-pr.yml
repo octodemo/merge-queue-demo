@@ -12,6 +12,7 @@ jobs:
         file_name: ['File1.txt']
         file_content: ['Hello World!', 'Hello Mars!']
     steps:
+    - uses: actions/checkout@v3
     - uses: octodemo/mq-demo/.github/actions/create-pr@main
       with:
         file_name: ${{ matrix.file_name }}
