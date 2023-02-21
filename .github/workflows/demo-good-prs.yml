@@ -24,13 +24,11 @@ jobs:
 
   demo:
     needs: file_name
-    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         file_name: ${{ fromJSON(needs.file_name.outputs.file_name) }}
-    steps:
-      - uses: octodemo/mq-demo/.github/workflows/create-pr.yml@main
-        with:
-          file_name: ${{ matrix.file_name }}
-          file_content: "Hello World!"
+    uses: octodemo/mq-demo/.github/workflows/create-pr.yml@main
+    with:
+      file_name: ${{ matrix.file_name }}
+      file_content: "Hello World!"
