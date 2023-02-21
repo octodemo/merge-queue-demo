@@ -14,7 +14,8 @@ jobs:
     with:
       file_name: ${{ matrix.file_name }}
       file_content: ${{ matrix.file_content }}
-      token: ${{ secrets.AUSTEN_PAT }}
+    secrets:
+      TOKEN: ${{ secrets.AUSTEN_PAT }}
   merge:
     name: Merge
     needs: demo
