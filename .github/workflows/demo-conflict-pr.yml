@@ -1,0 +1,14 @@
+name: Demo Conflict PRs
+
+on:
+  workflow_dispatch:
+
+jobs:
+  demo:
+    strategy:
+      matrix:
+        file_name: ['File1.txt', 'File1.txt']
+    uses: octodemo/mq-demo/.github/workflows/create-pr.yml@main
+    with:
+      file_name: ${{ matrix.file_name }}
+      file_content: "Hello World!"
