@@ -60,7 +60,7 @@ jobs:
       - run: echo "${{ inputs.file_content }}" > ${{ inputs.file_name }}
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          branch: ${{ inputs.branch_name && inputs.branch_name || format('patch-{0}', github.run_number) }}
+          branch: ${{ inputs.branch_name && inputs.branch_name || format('patch-{0}', github.file_name) }}
           create_branch: true
       - run: gh pr create --title "${{ inputs.pr_title && inputs.pr_title || format('Created {0}', inputs.file_name) }}" --body "${{ inputs.pr_body }}"
         env:
