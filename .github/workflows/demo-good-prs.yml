@@ -5,7 +5,7 @@ on:
     inputs:
       count:
         description: "The number of PRs to create"
-        default: 10
+        default: 3
         required: true
         type: number
 
@@ -20,7 +20,7 @@ jobs:
           retries: 3
           script: |
             // return a new array with 10 random numbers
-            return [...Array(${{ github.event.inputs.count }})].map(() => 'File' + (Math.floor(Math.random() * 1000000 + 1) + '.txt'))
+            return JSON.stringify([...Array(${{ github.event.inputs.count }})].map(() => 'File' + (Math.floor(Math.random() * 1000000 + 1) + '.txt')))
     outputs:
       file_name: ${{ steps.file_name.outputs.result }}
 
