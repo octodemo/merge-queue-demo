@@ -4,13 +4,25 @@ on:
   workflow_dispatch:
 
 jobs:
+  get_date_time:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v6
+        id: date_time
+        with:
+          result-encoding: string
+          retries: 3
+          script: return JSON.stringify(new Date())
+    outputs:
+      date_time: ${{ steps.date_time.outputs.result }}
   conflict:
     name: Conflict
+    needs: get_date_time
     runs-on: ubuntu-latest
     strategy:
       matrix:
         file_name: ['File1.txt']
-        file_content: ['Hello World!', 'Hello Mars!']
+        file_content: ['Hello World! ${{ needs.get_date_time.outputs.date_time }}', 'Hello Mars! ${{ needs.get_date_time.outputs.date_time }}']
     steps:
     - uses: actions/checkout@v3
     - id: create-pr
