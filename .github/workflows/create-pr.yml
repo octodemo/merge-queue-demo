@@ -26,6 +26,10 @@ on:
         description: "The name of the new PR branch"
         required: false
         type: string
+    outputs:
+      pr_number:
+        description: "The number of the PR created"
+        value: ${{ jobs.create-pr.outputs.number }}
   workflow_dispatch:
     inputs:
       file_name:
@@ -56,6 +60,8 @@ jobs:
   create-pr:
     name: Create PR
     runs-on: ubuntu-latest
+    outputs:
+      number: ${{ steps.create-pr.outputs.number }}
     steps:
       - name: Dump GitHub context
         id: github_context_step
@@ -68,6 +74,9 @@ jobs:
         with:
           branch: ${{ inputs.branch_name && inputs.branch_name || format('patch-{0}-{1}', inputs.file_name, steps.set-uuid.outputs.uuid) }}
           create_branch: true
-      - run: gh pr create --title "${{ inputs.pr_title && inputs.pr_title || format('Created {0}', inputs.file_name) }}" --body "${{ inputs.pr_body }}"
+      - id: create-pr
+        run: |
+          gh pr create --title "${{ inputs.pr_title && inputs.pr_title || format('Created {0}', inputs.file_name) }}" --body "${{ inputs.pr_body }}"
+          echo "number=$(gh pr view --json number --jq '.number')" >> $GITHUB_OUTPUT
         env:
           GH_TOKEN: ${{ github.token }}

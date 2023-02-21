@@ -9,7 +9,14 @@ jobs:
     strategy:
       matrix:
         file_name: ['File1.txt', 'File1.txt']
+        file_content: ['Hello World!', 'Hello Mars!']
     uses: octodemo/mq-demo/.github/workflows/create-pr.yml@main
     with:
       file_name: ${{ matrix.file_name }}
-      file_content: "Hello World!"
+      file_content: ${{ matrix.file_content }}
+  merge:
+    name: Merge
+    needs: demo
+    runs-on: ubuntu-latest
+    steps:
+      - run: gh pr merge ${{ needs.demo.outputs.pr_number }}
