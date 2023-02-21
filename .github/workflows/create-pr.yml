@@ -1,29 +1,34 @@
 name: Create PR
 
 on:
- workflow_dispatch:
-   inputs:
-     file_name:
-       default: "DATA.txt" 
-       required: true
-       type: string
-     file_content:
-       default: "Hello World!"
-       required: false
-       type: string
-     pr_title:
-       required: false
-       type: string
-     pr_body:
-       default: "This PR was automatically created!"
-       required: false
-       type: string
-     branch_name:
-       default: "patch"
-       required: false
-       type: string
- workflow_call:
-        
+  workflow_call:
+  workflow_dispatch:
+    inputs:
+      file_name:
+        description: "The name of the file to be created"
+        default: "DATA.txt"
+        required: true
+        type: string
+      file_content:
+        description: "The content of the file to be created"
+        default: "Hello World!"
+        required: false
+        type: string
+      pr_title:
+        description: "The title of the PR"
+        required: false
+        type: string
+      pr_body:
+        description: "The body of the PR"
+        default: "This PR was automatically created!"
+        required: false
+        type: string
+      branch_name:
+        description: "The name of the new PR branch"
+        default: "patch"
+        required: false
+        type: string
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -31,9 +36,8 @@ jobs:
       - run: echo "${{ inputs.file_content }}" > ${{ inputs.file_name }}
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-           branch: ${{ branch_name }}
-           create_branch: true
-      - run: gh pr create --title "${{ inputs.pr_title && inputs.pr_title || 'Created ' + inputs.pr_title }}" --body "${{ inputs.pr_body }}"
+          branch: ${{ inputs.branch_name }}
+          create_branch: true
+      - run: gh pr create --title "${{ inputs.pr_title && inputs.pr_title || format('Created {0}', inputs.pr_title) }}" --body "${{ inputs.pr_body }}"
         env:
           GH_TOKEN: ${{ github.token }}
-
