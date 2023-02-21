@@ -1,4 +1,4 @@
-name: Demo Good PRs
+name: Open Good PRs
 
 on:
   workflow_dispatch:

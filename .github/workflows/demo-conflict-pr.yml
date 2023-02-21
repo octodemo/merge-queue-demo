@@ -1,10 +1,10 @@
-name: Demo Conflict PRs
+name: Open Conflict PRs
 
 on:
   workflow_dispatch:
 
 jobs:
-  demo:
+  conflict:
     name: Conflict
     runs-on: ubuntu-latest
     strategy:
@@ -13,12 +13,13 @@ jobs:
         file_content: ['Hello World!', 'Hello Mars!']
     steps:
     - uses: actions/checkout@v3
-    - uses: octodemo/mq-demo/.github/actions/create-pr@main
+    - id: create-pr
+      uses: octodemo/mq-demo/.github/actions/create-pr@main
       with:
         file_name: ${{ matrix.file_name }}
         file_content: ${{ matrix.file_content }}
         token: ${{ secrets.AUSTEN_PAT }}
-    - run: gh pr merge ${{ needs.demo.outputs.pr_number }}
+    - run: gh pr merge ${{ steps.create-pr.outputs.pr_number }}
       env:
         GH_TOKEN: ${{ secrets.AUSTEN_PAT }}
   # demo:
