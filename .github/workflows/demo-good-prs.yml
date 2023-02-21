@@ -11,6 +11,7 @@ on:
 
 jobs:
   file_name:
+    name: Get File Names
     runs-on: ubuntu-latest
     steps:
       - uses: actions/github-script@v6
