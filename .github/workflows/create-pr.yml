@@ -2,6 +2,30 @@ name: Create PR
 
 on:
   workflow_call:
+    inputs:
+      file_name:
+        description: "The name of the file to be created"
+        default: "DATA.txt"
+        required: true
+        type: string
+      file_content:
+        description: "The content of the file to be created"
+        default: "Hello World!"
+        required: false
+        type: string
+      pr_title:
+        description: "The title of the PR"
+        required: false
+        type: string
+      pr_body:
+        description: "The body of the PR"
+        default: "This PR was automatically created!"
+        required: false
+        type: string
+      branch_name:
+        description: "The name of the new PR branch"
+        required: false
+        type: string
   workflow_dispatch:
     inputs:
       file_name:
