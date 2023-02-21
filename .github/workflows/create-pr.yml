@@ -3,37 +3,38 @@ name: Create PR
 on:
  workflow_dispatch:
    inputs:
-     file-name:
-       default: "thiswillfail" 
+     file_name:
+       default: "DATA.txt" 
        required: true
        type: string
-     file-content:
-       default: "Hello MQ demo runner"
+     file_content:
+       default: "Hello World!"
+       required: false
+       type: string
+     pr_title:
+       default: "Create ${{ inputs.file_name }}"
+       required: false
+       type: string
+     pr_body:
+       default: "This PR was automatically created!"
+       required: false
+       type: string
+     branch_name:
+       default: "patch"
        required: false
        type: string
  workflow_call:
-   inputs:
-     file-name:
-       default: "thiswillfail" 
-       required: true
-       type: string
-     file-content:
-       default: "Hello MQ demo runner"
-       required: false
-       type: string
         
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v3
-      - run: echo ${{ inputs.file-content }} > ${{ inputs.file-name }}
+      - run: echo "${{ inputs.file_content }}" > ${{ inputs.file_name }}
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-           branch: actions-bot-${{ inputs.file-name }}-patch-6
+           branch: ${{ branch_name }}
            create_branch: true
-      - run: gh pr create --title "${{ inputs.file-name }} PR" --body "${{ inputs.file-name }} body"
+      - run: gh pr create --title "${{ inputs.pr_title }}" --body "${{ inputs.pr_body }}"
         env:
           GH_TOKEN: ${{ github.token }}
 
