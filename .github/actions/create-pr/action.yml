@@ -37,8 +37,10 @@ runs:
   steps:
     - uses: actions/checkout@v3
     - run: echo "${{ inputs.file_content }}" > ${{ inputs.file_name }}
+      shell: bash
     - id: set-uuid
       run: echo "uuid=$(uuidgen)" >> $GITHUB_OUTPUT
+      shell: bash
     - uses: stefanzweifel/git-auto-commit-action@v4
       with:
         branch: ${{ inputs.branch_name && inputs.branch_name || format('patch-{0}-{1}', inputs.file_name, steps.set-uuid.outputs.uuid) }}
@@ -47,5 +49,6 @@ runs:
       run: |
         gh pr create --title "${{ inputs.pr_title && inputs.pr_title || format('Created {0}', inputs.file_name) }}" --body "${{ inputs.pr_body }}"
         echo "number=$(gh pr view --json number --jq '.number')" >> $GITHUB_OUTPUT
+      shell: bash
       env:
         GH_TOKEN: ${{ inputs.token && inputs.token || github.token }}
