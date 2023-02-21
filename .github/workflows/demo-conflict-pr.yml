@@ -16,8 +16,8 @@ jobs:
           script: return JSON.stringify(new Date())
     outputs:
       date_time: ${{ steps.date_time.outputs.result }}
-  conflict:
-    name: Conflict
+  create:
+    name: Create
     needs: get_date_time
     runs-on: ubuntu-latest
     strategy:
@@ -35,24 +35,3 @@ jobs:
     - run: gh pr merge ${{ steps.create-pr.outputs.pr_number }}
       env:
         GH_TOKEN: ${{ secrets.AUSTEN_PAT }}
-  # demo:
-  #   name: Conflict
-  #   strategy:
-  #     matrix:
-  #       file_name: ['File1.txt']
-  #       file_content: ['Hello World!', 'Hello Mars!']
-  #   uses: octodemo/mq-demo/.github/workflows/create-pr.yml@main
-  #   with:
-  #     file_name: ${{ matrix.file_name }}
-  #     file_content: ${{ matrix.file_content }}
-  #   secrets:
-  #     TOKEN: ${{ secrets.AUSTEN_PAT }}
-  # merge:
-  #   name: Merge
-  #   needs: demo
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     - run: gh pr merge ${{ needs.demo.outputs.pr_number }}
-  #       env:
-  #         GH_TOKEN: ${{ secrets.AUSTEN_PAT }}

@@ -22,8 +22,8 @@ jobs:
     outputs:
       file_name: ${{ steps.file_name.outputs.result }}
 
-  demo:
-    name: PR
+  create:
+    name: Create
     runs-on: ubuntu-latest
     needs: file_name
     strategy:
