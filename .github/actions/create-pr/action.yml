@@ -1,0 +1,51 @@
+name: 'Create PR'
+description: 'Greet someone'
+inputs:
+  file_name:
+    description: "The name of the file to be created"
+    default: "DATA.txt"
+    required: true
+    type: string
+  file_content:
+    description: "The content of the file to be created"
+    default: "Hello World!"
+    required: false
+    type: string
+  pr_title:
+    description: "The title of the PR"
+    required: false
+    type: string
+  pr_body:
+    description: "The body of the PR"
+    default: "This PR was automatically created!"
+    required: false
+    type: string
+  branch_name:
+    description: "The name of the new PR branch"
+    required: false
+    type: string
+  token:
+    description: "The token to use for creating the PR"
+    required: false
+    type: string
+outputs:
+  pr_number:
+    description: "The number of the PR created"
+    value: ${{ jobs.create-pr.outputs.number }}
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v3
+    - run: echo "${{ inputs.file_content }}" > ${{ inputs.file_name }}
+    - id: set-uuid
+      run: echo "uuid=$(uuidgen)" >> $GITHUB_OUTPUT
+    - uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        branch: ${{ inputs.branch_name && inputs.branch_name || format('patch-{0}-{1}', inputs.file_name, steps.set-uuid.outputs.uuid) }}
+        create_branch: true
+    - id: create-pr
+      run: |
+        gh pr create --title "${{ inputs.pr_title && inputs.pr_title || format('Created {0}', inputs.file_name) }}" --body "${{ inputs.pr_body }}"
+        echo "number=$(gh pr view --json number --jq '.number')" >> $GITHUB_OUTPUT
+      env:
+        GH_TOKEN: ${{ inputs.token && inputs.token || github.token }}
