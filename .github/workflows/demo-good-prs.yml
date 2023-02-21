@@ -5,7 +5,7 @@ on:
     inputs:
       count:
         description: "The number of PRs to create"
-        default: 3
+        default: 2
         required: true
         type: number
 

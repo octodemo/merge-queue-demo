@@ -16,6 +16,7 @@ jobs:
           script: return JSON.stringify(new Date())
     outputs:
       date_time: ${{ steps.date_time.outputs.result }}
+      
   create:
     name: Create
     needs: get_date_time
