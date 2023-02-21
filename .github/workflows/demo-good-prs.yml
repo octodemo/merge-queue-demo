@@ -32,3 +32,4 @@ jobs:
     with:
       file_name: ${{ matrix.file_name }}
       file_content: "Hello World!"
+      token: ${{ secrets.AUSTEN_PAT }}

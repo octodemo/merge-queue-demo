@@ -26,6 +26,10 @@ on:
         description: "The name of the new PR branch"
         required: false
         type: string
+      token:
+        description: "The GitHub token to use"
+        required: true
+        type: string
     outputs:
       pr_number:
         description: "The number of the PR created"
@@ -79,4 +83,4 @@ jobs:
           gh pr create --title "${{ inputs.pr_title && inputs.pr_title || format('Created {0}', inputs.file_name) }}" --body "${{ inputs.pr_body }}"
           echo "number=$(gh pr view --json number --jq '.number')" >> $GITHUB_OUTPUT
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ inputs.token && inputs.token || github.token }}
