@@ -1,0 +1,38 @@
+name: Demo Good PRs
+
+on:
+  workflow_dispatch:
+    inputs:
+      count:
+        description: "The number of PRs to create"
+        default: 10
+        required: true
+        type: number
+
+jobs:
+  file_name:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v6
+        id: file_name
+        with:
+          result-encoding: string
+          retries: 3
+          script: |
+            // return a new array with 10 random numbers
+            return [...Array(${{ github.event.inputs.count }})].map(() => 'File' + (Math.floor(Math.random() * 1000000 + 1) + '.txt')
+    outputs:
+      file_name: ${{ steps.file_name.outputs.result }}
+
+  demo:
+    needs: file_name
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        file_name: ${{ fromJSON(needs.file_name.outputs.file_name) }}
+    steps:
+      - uses: ./.github/workflows/create-pr.yml
+        with:
+          file_name: ${{ matrix.file_name }}
+          file_content: "Hello World!"
