@@ -31,7 +31,7 @@ inputs:
 outputs:
   pr_number:
     description: "The number of the PR created"
-    value: ${{ jobs.create-pr.outputs.number }}
+    value: ${{ steps.create-pr.outputs.number }}
 runs:
   using: "composite"
   steps:
