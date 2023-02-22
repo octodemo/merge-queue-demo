@@ -30,12 +30,14 @@ jobs:
     strategy:
       matrix:
         file_name: ${{ fromJSON(needs.file_name.outputs.file_name) }}
+        file_content: ['Hello World!']
+        commit_message: ['fail']
     steps:
     - uses: actions/checkout@v3
     - id: create-pr
       uses: octodemo/mq-demo/.github/actions/create-pr@main
       with:
         file_name: ${{ matrix.file_name }}
-        file_content: "Hello World!"
+        file_content: ${{ matrix.file_content }}
         token: ${{ secrets.AUSTEN_PAT }}
-        commit_message: "fail"
+        commit_message: ${{ matrix.commit_message }}

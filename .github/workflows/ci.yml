@@ -3,9 +3,7 @@ name: CI
 # Trigger this workflow on individual pull requests and merge groups that target the `main` branch
 on:
   pull_request:
-    branches: [ main ]
   merge_group:
-    branches: [ main ]
 
 jobs:
   build:
@@ -17,3 +15,6 @@ jobs:
       - name: 😴 sleep ${{ steps.random.outputs.number }}s
         if: github.event_name == 'pull_request'
         run: sleep ${{ steps.random.outputs.number }}
+      - name: Fail
+        if: ${{ contains(github.event.head_commit.message, 'fail') }}
+        run: exit 1
