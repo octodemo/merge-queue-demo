@@ -48,7 +48,7 @@ runs:
       with:
         branch: ${{ inputs.branch_name && inputs.branch_name || format('patch-{0}-{1}', inputs.file_name, steps.set-uuid.outputs.uuid) }}
         create_branch: true
-        commit_message: ${{ inputs.commit_message }}
+        commit_message: ${{ inputs.commit_message || 'Automated Commit' }}
     - run: git branch
       shell: bash
     - id: create-pr
