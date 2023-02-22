@@ -11,10 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - id: random
-        run: echo "number=$(( ( RANDOM % 60 )  + 10 ))" >> $GITHUB_OUTPUT
+        run: echo "number=$(( ( RANDOM % 55 )  + 5 ))" >> $GITHUB_OUTPUT
       - name: 😴 sleep ${{ steps.random.outputs.number }}s
         if: github.event_name == 'pull_request'
         run: sleep ${{ steps.random.outputs.number }}
+      - name: dump context
+        run: echo "${{ toJson(github.event) }}"
       - name: Fail
         if: ${{ contains(github.event_name == 'pull_request' && github.event.head_commit.message || github.event.merge_group.head_commit.message, 'fail') }}
         run: exit 1
