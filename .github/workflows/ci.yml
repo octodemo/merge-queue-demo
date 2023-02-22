@@ -16,7 +16,7 @@ jobs:
         if: github.event_name == 'pull_request'
         run: sleep ${{ steps.random.outputs.number }}
       - name: dump context
-        run: echo "${{ toJson(github.event) }}"
+        run: echo "${{ toJson(github) }}"
       - name: Fail
         if: ${{ contains(github.event_name == 'pull_request' && github.event.head_commit.message || github.event.merge_group.head_commit.message, 'fail') }}
         run: exit 1
