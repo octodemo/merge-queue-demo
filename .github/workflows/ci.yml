@@ -17,12 +17,10 @@ jobs:
       - id: get_commit_message
         run: echo "commit_message=$(git show -s --format=%s)" >> $GITHUB_OUTPUT
       - id: random
-        run: echo "number=$(( ( RANDOM % 55 )  + 5 ))" >> $GITHUB_OUTPUT
+        run: echo "number=$(( ( RANDOM % 50 )  + 10 ))" >> $GITHUB_OUTPUT
       - name: 😴 sleep ${{ steps.random.outputs.number }}s
         if: github.event_name == 'pull_request'
         run: sleep ${{ steps.random.outputs.number }}
-      - name: dump context
-        run: echo "${{ toJson(github) }}"
       - name: Fail
         if: ${{ contains(steps.get_commit_message.outputs.commit_message, 'fail') }}
         run: exit 1
