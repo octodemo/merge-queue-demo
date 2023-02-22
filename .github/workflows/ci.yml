@@ -10,6 +10,12 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
+      - name: Get repo
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - id: get_commit_message
+        run: echo "commit_message=$(git show -s --format=%s)" >> $GITHUB_OUTPUT
       - id: random
         run: echo "number=$(( ( RANDOM % 55 )  + 5 ))" >> $GITHUB_OUTPUT
       - name: 😴 sleep ${{ steps.random.outputs.number }}s
@@ -18,5 +24,5 @@ jobs:
       - name: dump context
         run: echo "${{ toJson(github) }}"
       - name: Fail
-        if: ${{ contains(github.event_name == 'pull_request' && github.event.head_commit.message || github.event.merge_group.head_commit.message, 'fail') }}
+        if: ${{ contains(steps.get_commit_message.outputs.commit_message, 'fail') }}
         run: exit 1
