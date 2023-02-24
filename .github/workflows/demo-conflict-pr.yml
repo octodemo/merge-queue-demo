@@ -33,6 +33,6 @@ jobs:
         file_name: ${{ matrix.file_name }}
         file_content: ${{ matrix.file_content }}
         token: ${{ secrets.AUSTEN_PAT }}
-    - run: gh pr merge ${{ steps.create-pr.outputs.pr_number }}
+    - run: gh pr merge ${{ steps.create-pr.outputs.pr_number }} --rebase
       env:
         GH_TOKEN: ${{ secrets.AUSTEN_PAT }}
