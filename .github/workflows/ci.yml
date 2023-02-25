@@ -18,9 +18,25 @@ jobs:
         run: echo '${{ toJSON(steps) }}'
       - name: Dump runner context
         run: echo '${{ toJSON(runner) }}'
+  get_pr_number:
+    runs-on: ubuntu-latest
+    outputs:
+      pr_number: ${{ steps.set-result.outputs.result || steps.set-result.outputs.result || github.event.pull_request.number }}
+    steps:
+    - if: github.event_name == 'merge_group'
+      uses: actions/github-script@v6
+      id: set-result
+      env:
+        REF: ${{ github.ref }}
+      with:
+        script: return process.env.REF?.match(/pr-(\d+)/)[1]
   build:
     name: Build
     runs-on: ubuntu-latest
+    needs: [ get_pr_number ]
+    concurrency:
+      group: ${{ github.workflow }}-${{ needs.get_pr_number.outputs.pr_number || github.event.pull_request.number }}
+      cancel-in-progress: true
     steps:
       - name: Get repo
         uses: actions/checkout@v3
