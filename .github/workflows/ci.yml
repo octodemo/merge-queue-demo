@@ -21,7 +21,7 @@ jobs:
   get_pr_number:
     runs-on: ubuntu-latest
     outputs:
-      pr_number: ${{ steps.set-result.outputs.result || steps.set-result.outputs.result || github.event.pull_request.number }}
+      pr_number: ${{ steps.set-result.outputs.result || github.event.pull_request.number }}
     steps:
     - if: github.event_name == 'merge_group'
       uses: actions/github-script@v6
