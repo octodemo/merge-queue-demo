@@ -1,5 +1,4 @@
 name: Merge Conflict PRs
-
 on:
   workflow_dispatch:
 
