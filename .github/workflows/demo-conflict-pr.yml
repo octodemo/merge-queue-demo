@@ -1,4 +1,4 @@
-name: Merge Conflict PRs
+name: Action - Merge Conflict PRs
 on:
   workflow_dispatch:
 
@@ -7,7 +7,7 @@ jobs:
     name: Get Date/Time
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@v6
+      - uses: actions/github-script@v8
         id: date_time
         with:
           result-encoding: string
@@ -25,13 +25,13 @@ jobs:
         file_name: ['File1.txt']
         file_content: ['Hello World! ${{ needs.get_date_time.outputs.date_time }}', 'Hello Mars! ${{ needs.get_date_time.outputs.date_time }}']
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v6
     - id: create-pr
-      uses: austenstone/merge-queue-demo/.github/actions/create-pr@main
+      uses: ./.github/actions/create-pr
       with:
         file_name: ${{ matrix.file_name }}
         file_content: ${{ matrix.file_content }}
-        token: ${{ secrets.AUSTEN_PAT }}
+        token: ${{ secrets.USER_PAT }}
     - run: gh pr merge ${{ steps.create-pr.outputs.pr_number }} --merge --auto
       env:
-        GH_TOKEN: ${{ secrets.AUSTEN_PAT }}
+        GH_TOKEN: ${{ secrets.USER_PAT }}
