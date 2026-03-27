@@ -1,0 +1,20 @@
+name: Action - Add PRs To Queue
+on:
+  workflow_dispatch:
+
+jobs:
+  add-prs-to-queue:
+    name: Add PRs To Queue
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v6
+      - name: Add all open PRs to merge queue
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          for pr in $(gh pr list --state open --json number --jq '.[].number'); do
+            gh pr merge "$pr"
+          done

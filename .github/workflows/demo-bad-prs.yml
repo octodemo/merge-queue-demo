@@ -1,4 +1,4 @@
-name: Open Bad PRs
+name: Action - Open Bad PRs
 on:
   workflow_dispatch:
     inputs:
@@ -13,7 +13,7 @@ jobs:
     name: Get File Names
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@v6
+      - uses: actions/github-script@v8
         id: file_name
         with:
           result-encoding: string
@@ -32,11 +32,11 @@ jobs:
         file_content: ['Hello World!']
         commit_message: ['fail']
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v6
     - id: create-pr
-      uses: austenstone/merge-queue-demo/.github/actions/create-pr@main
+      uses: ./.github/actions/create-pr
       with:
         file_name: ${{ matrix.file_name }}
         file_content: ${{ matrix.file_content }}
-        token: ${{ secrets.AUSTEN_PAT }}
+        token: ${{ secrets.USER_PAT }}
         commit_message: ${{ matrix.commit_message }}
